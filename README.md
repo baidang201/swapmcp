@@ -10,3 +10,10 @@ npx hardhat node
 yarn
 
 yarn build && npx @modelcontextprotocol/inspector node dist/index.js
+
+##### addLiquidity
+![alt text](image-2.png)
+##### tokenToEthSwap
+![alt text](image-1.png)
+##### resource pool
+![alt text](image.png)
