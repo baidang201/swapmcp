@@ -17,8 +17,8 @@ const EXCHANGE_ABI = [
 ];
 
 // 合约地址 - 这里需要替换为你的实际部署地址
-const EXCHANGE_ADDRESS = "0xYourExchangeContractAddress";
-const TOKEN_ADDRESS = "0xYourTokenContractAddress";
+const EXCHANGE_ADDRESS = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512";
+const TOKEN_ADDRESS = "0x5fbdb2315678afecb367f032d93f642f64180aa3";
 
 // ERC20 ABI
 const ERC20_ABI = [
@@ -144,8 +144,8 @@ server.tool("tokenToEthSwap",
 // Query current liquidity resource
 server.resource(
   "liquidity",
-  new ResourceTemplate("liquidity://pool", { list: undefined }),
-  async (uri) => {
+  new ResourceTemplate("liquidity://pool//{address}", { list: undefined }),
+  async (uri, { address }) => {
     try {
       const reserve = await exchangeContract.getReserve();
       const ethBalance = await provider.getBalance(EXCHANGE_ADDRESS);
@@ -166,6 +166,18 @@ server.resource(
       };
     }
   }
+);
+
+// Add a dynamic greeting resource
+server.resource(
+  "greeting",
+  new ResourceTemplate("greeting://{name}", { list: undefined }),
+  async (uri, { name }) => ({
+    contents: [{
+      uri: uri.href,
+      text: `Hello, ${name}!`
+    }]
+  })
 );
 
 // Start receiving messages on stdin and sending messages on stdout
